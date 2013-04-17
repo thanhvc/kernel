@@ -18,18 +18,18 @@
  */
 package org.exoplatform.container;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.exoplatform.container.multitenancy.bridge.TenantsContainerContext;
+import org.exoplatform.container.multitenancy.bridge.TenantContainerContext;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoException;
 import org.picocontainer.defaults.ComponentAdapterFactory;
 import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * TenantsContainer separate generally used components from ones what should be instantiated,
+ * TenantContainer separate generally used components from ones what should be instantiated,
  * started and stopped on per-tenant basis.<br>
  * It overrides component getters, {@link #registerComponent(ComponentAdapter)} and
  * {@link #unregisterComponent(Object)} methods to get components taking in account Current Tenant
@@ -40,29 +40,29 @@ import org.picocontainer.defaults.DuplicateComponentKeyRegistrationException;
  * 
  * 
  */
-public class TenantsContainer extends CachingContainer
+public class TenantContainer extends CachingContainer
 {
 
    private static final long serialVersionUID = 1945046643718969920L;
 
-   protected TenantsContainerContext tenantsContainerContext;
+   protected TenantContainerContext tenantsContainerContext;
 
-   public TenantsContainer(ComponentAdapterFactory componentAdapterFactory, PicoContainer parent)
+   public TenantContainer(ComponentAdapterFactory componentAdapterFactory, PicoContainer parent)
    {
       super(componentAdapterFactory, parent);
    }
 
-   public TenantsContainer(PicoContainer parent)
+   public TenantContainer(PicoContainer parent)
    {
       super(parent);
    }
 
-   public TenantsContainer(ComponentAdapterFactory componentAdapterFactory)
+   public TenantContainer(ComponentAdapterFactory componentAdapterFactory)
    {
       super(componentAdapterFactory);
    }
 
-   public TenantsContainer()
+   public TenantContainer()
    {
    }
 
@@ -161,9 +161,9 @@ public class TenantsContainer extends CachingContainer
       {
          ComponentAdapter contextAdapter = tenantsContainerContext.registerComponent(componentAdapter);
          // check if the same adapter returned, if not - register the new in the super also 
-         if (contextAdapter == componentAdapter)
+         if (contextAdapter != null)
          {
-            return componentAdapter;
+            return contextAdapter;
          }
          else
          {

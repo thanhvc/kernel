@@ -33,35 +33,28 @@ import org.exoplatform.container.multitenancy.Tenant;
 import java.security.PrivilegedAction;
 
 /**
- * Tests of {@link TenantsServiceImpl}.
+ * Tests of {@link TenantServiceImpl}.
  * 
  */
-public class TestTenantsServiceImpl extends TestCase
+public class TestTenantServiceImpl extends TestCase
 {
 
    public static class SupportedPlugin extends BaseComponentPlugin implements CurrentTenantLookup
    {
-      @Override
       public Tenant getCurrentTenant() throws CurrentTenantNotSetException
       {
          throw new CurrentTenantNotSetException("not supported");
       }
 
-      @Override
       public boolean hasCurrentTenant()
       {
          return false;
       }
    }
 
-   public static class NotSupportedPlugin extends BaseComponentPlugin
-   {
-
-   }
-
    protected ExoContainer parent;
 
-   protected TenantsServiceImpl tenants;
+   protected TenantServiceImpl tenants;
 
    /**
     * {@inheritDoc}
@@ -86,7 +79,7 @@ public class TestTenantsServiceImpl extends TestCase
 
       parent = root.getPortalContainer(PortalContainer.DEFAULT_PORTAL_CONTAINER_NAME);
 
-      tenants = (TenantsServiceImpl)parent.getComponentInstanceOfType(TenantsServiceImpl.class);
+      tenants = (TenantServiceImpl)parent.getComponentInstanceOfType(TenantServiceImpl.class);
    }
 
    public void testHasNoPluginsByDefault()
@@ -98,15 +91,8 @@ public class TestTenantsServiceImpl extends TestCase
    public void testAddSupportedPlugin()
    {
       ComponentPlugin plugin = new SupportedPlugin();
-      tenants.addPlugin(plugin);
+      tenants.addPlugin((CurrentTenantLookup)plugin);
       assertTrue(tenants.lookups.contains(plugin));
-   }
-
-   public void testAddNotSupportedPlugin()
-   {
-      ComponentPlugin plugin = new NotSupportedPlugin();
-      tenants.addPlugin(plugin);
-      assertFalse(tenants.lookups.contains(plugin));
    }
 
    /**
@@ -115,7 +101,7 @@ public class TestTenantsServiceImpl extends TestCase
    public void testGetCurrentTanant() {
       try
       {
-         tenants.getCurrentTanant();
+         tenants.getCurrentTenant();
          fail("Current Tenant should not be set by default (without eXo Cloud environment)");
       }
       catch (CurrentTenantNotSetException e)
@@ -128,7 +114,7 @@ public class TestTenantsServiceImpl extends TestCase
     * Ensure that no Current Tenant by default.
     */
    public void testHasCurrentTanant() {
-      assertFalse(tenants.hasCurrentTanant());
+      assertFalse(tenants.hasCurrentTenant());
    }
    
 }

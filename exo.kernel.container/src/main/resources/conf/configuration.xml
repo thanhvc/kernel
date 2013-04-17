@@ -28,8 +28,8 @@
 
    <!-- Multitenancy support. Should be available even for non-cloud environment to let apps work transparently -->
    <component>
-      <key>org.exoplatform.container.multitenancy.TenantsService</key>
-      <type>org.exoplatform.container.multitenancy.bridge.TenantsServiceImpl</type>
+      <key>org.exoplatform.container.multitenancy.TenantService</key>
+      <type>org.exoplatform.container.multitenancy.bridge.TenantServiceImpl</type>
    </component>
 
    <component>

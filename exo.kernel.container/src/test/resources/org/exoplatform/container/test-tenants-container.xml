@@ -25,8 +25,8 @@
     xmlns="http://www.exoplaform.org/xml/ns/kernel_1_1.xsd">
     
     <component>
-      <key>org.exoplatform.container.multitenancy.bridge.TenantsContainerContext</key>
-      <type>org.exoplatform.container.multitenancy.bridge.DummyTenantsContainerContext</type>
+      <key>org.exoplatform.container.multitenancy.bridge.TenantContainerContext</key>
+      <type>org.exoplatform.container.multitenancy.bridge.DummyTenantContainerContext</type>
     </component>
 
 </configuration>

@@ -23,7 +23,7 @@ import org.exoplatform.commons.utils.SecurityHelper;
 import org.exoplatform.container.component.ComponentLifecyclePlugin;
 import org.exoplatform.container.configuration.ConfigurationManager;
 import org.exoplatform.container.management.ManageableContainer;
-import org.exoplatform.container.multitenancy.bridge.TenantsContainerContext;
+import org.exoplatform.container.multitenancy.bridge.TenantContainerContext;
 import org.exoplatform.container.security.ContainerPermissions;
 import org.exoplatform.container.util.ContainerUtil;
 import org.exoplatform.container.xml.Configuration;
@@ -182,24 +182,6 @@ public class ExoContainer extends ManageableContainer
       this.parent = parent;
    }
 
-   protected ExoContainer(PicoContainer parent, boolean initContext)
-   {
-      super(parent);
-      if (initContext)
-      {
-         context = new ExoContainerContext(this, this.getClass().getSimpleName());
-         SecurityHelper.doPrivilegedAction(new PrivilegedAction<Void>()
-         {
-            public Void run()
-            {
-               registerComponentInstance(context);
-               return null;
-            }
-         });
-      }
-      this.parent = parent;
-   }
-
    public ExoContainerContext getContext()
    {
       return context;
@@ -231,10 +213,10 @@ public class ExoContainer extends ManageableContainer
       ConfigurationManager manager = (ConfigurationManager)getComponentInstanceOfType(ConfigurationManager.class);
 
       // Initialize tenants context from configuration
-      tenantsContainerContext = ContainerUtil.createTenantsContext(this, manager);
+      tenantsContainerContext = ContainerUtil.createTenantContext(this, manager);
       if (tenantsContainerContext != null)
       {
-         registerComponentInstance(TenantsContainerContext.class, tenantsContainerContext);
+         registerComponentInstance(TenantContainerContext.class, tenantsContainerContext);
       }
 
       ContainerUtil.addContainerLifecyclePlugin(this, manager);

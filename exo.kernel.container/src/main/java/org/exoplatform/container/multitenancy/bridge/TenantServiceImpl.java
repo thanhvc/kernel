@@ -18,19 +18,18 @@
  */
 package org.exoplatform.container.multitenancy.bridge;
 
-import org.exoplatform.container.component.ComponentPlugin;
 import org.exoplatform.container.multitenancy.CurrentTenantNotSetException;
 import org.exoplatform.container.multitenancy.Tenant;
-import org.exoplatform.container.multitenancy.TenantsService;
-import org.exoplatform.container.multitenancy.TenantsStateListener;
+import org.exoplatform.container.multitenancy.TenantService;
+import org.exoplatform.container.multitenancy.TenantStateListener;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Implementation of {@link TenantsService} based on plugins. Following kinds of plugin supported: <ul>
+ * Implementation of {@link TenantService} based on plugins. Following kinds of plugin supported: <ul>
  * <li>
  * CurrentTenantLookup
  * </li>
@@ -39,61 +38,52 @@ import java.util.List;
  * </li>
  * </ul>
  * 
- * NOTE: TenantsServiceImpl can be consumed before the container start (e.g. to add a listener or check current tenant). 
+ * NOTE: TenantServiceImpl can be consumed before the container start (e.g. to add a listener or check current tenant). 
  * 
  * @author <a href="mailto:pnedonosko@exoplatform.com">Peter Nedonosko</a>
  * 
  */
-public class TenantsServiceImpl implements TenantsService
+public class TenantServiceImpl implements TenantService
 {
 
-   protected static final Log LOG = ExoLogger.getLogger(TenantsServiceImpl.class);
+   protected static final Log LOG = ExoLogger.getLogger("exo.kernel.container.TenantServiceImpl");
 
    /**
     * List of registered {@link CurrentTenantLookup} implementations.
     */
-   protected final List<CurrentTenantLookup> lookups = new ArrayList<CurrentTenantLookup>();
+   protected final List<CurrentTenantLookup> lookups = new CopyOnWriteArrayList<CurrentTenantLookup>();
 
    /**
     * List of registered {@link TenantStateObserver} implementations.
     */
-   protected final List<TenantStateObserver> observers = new ArrayList<TenantStateObserver>();
+   protected final List<TenantStateObserver> observers = new CopyOnWriteArrayList<TenantStateObserver>();
 
    /**
-    * Constructor without dependencies.
+    * Register component plugin. Used by container during the service instantiation. Not recommended for use in runtime.
+    * 
+    * @param plugin {@link CurrentTenantLookup}
     */
-   public TenantsServiceImpl()
+   public void addPlugin(CurrentTenantLookup plugin)
    {
+      lookups.add(plugin);
+      LOG.info("CurrentTenantLookup instance registered: " + plugin.toString());
    }
 
    /**
     * Register component plugin. Used by container during the service instantiation. Not recommended for use in runtime.
     * 
-    * @param plugin {@link ComponentPlugin}
+    * @param plugin {@link TenantStateObserver}
     */
-   public void addPlugin(ComponentPlugin plugin)
+   public void addPlugin(TenantStateObserver plugin)
    {
-      if (plugin instanceof CurrentTenantLookup)
-      {
-         lookups.add((CurrentTenantLookup)plugin);
-         LOG.info("CurrentTenantLookup instance registered: " + plugin.toString());
-      }
-      else if (plugin instanceof TenantStateObserver)
-      {
-         observers.add((TenantStateObserver)plugin);
-         LOG.info("TenantStateObserver instance registered: " + plugin.toString());
-      }
-      else
-      {
-         LOG.warn("Not supported component plugin: " + plugin.getName() + ", type " + plugin.getClass());
-      }
+      observers.add(plugin);
+      LOG.info("TenantStateObserver instance registered: " + plugin.toString());
    }
 
    /**
     * {@inheritDoc}
     */
-   @Override
-   public void addListener(TenantsStateListener listener)
+   public void addListener(TenantStateListener listener)
    {
       for (TenantStateObserver o : observers)
       {
@@ -104,8 +94,7 @@ public class TenantsServiceImpl implements TenantsService
    /**
     * {@inheritDoc}
     */
-   @Override
-   public void removeListener(TenantsStateListener listener)
+   public void removeListener(TenantStateListener listener)
    {
       for (TenantStateObserver o : observers)
       {
@@ -116,8 +105,7 @@ public class TenantsServiceImpl implements TenantsService
    /**
     * {@inheritDoc}
     */
-   @Override
-   public Tenant getCurrentTanant() throws CurrentTenantNotSetException
+   public Tenant getCurrentTenant() throws CurrentTenantNotSetException
    {
       for (CurrentTenantLookup l : lookups)
       {
@@ -133,8 +121,7 @@ public class TenantsServiceImpl implements TenantsService
    /**
     * {@inheritDoc}
     */
-   @Override
-   public boolean hasCurrentTanant()
+   public boolean hasCurrentTenant()
    {
       for (CurrentTenantLookup l : lookups)
       {

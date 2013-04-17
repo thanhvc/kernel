@@ -1,9 +1,7 @@
 package org.exoplatform.container.multitenancy.bridge;
 
-import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.jmx.MX4JComponentAdapter;
-import org.exoplatform.container.multitenancy.bridge.TenantComponentRegistrationException;
-import org.exoplatform.container.multitenancy.bridge.TenantsContainerContext;
 import org.exoplatform.container.xml.InitParams;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.defaults.InstanceComponentAdapter;
@@ -14,13 +12,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * {@link TenantsContainerContext} implementation for tests.
+ * {@link TenantContainerContext} implementation for tests.
  * 
  * @author <a href="mailto:pnedonosko@exoplatform.org">Peter Nedonosko</a>
- * @version $Id: DummyTenantsContainerContext.java 000000 Mar 6, 2013 4:32:48 PM pnedonosko $
+ * @version $Id: DummyTenantContainerContext.java 000000 Mar 6, 2013 4:32:48 PM pnedonosko $
  *
  */
-public class DummyTenantsContainerContext implements TenantsContainerContext
+public class DummyTenantContainerContext implements TenantContainerContext
 {
 
    public Object lastGetKey;
@@ -33,32 +31,28 @@ public class DummyTenantsContainerContext implements TenantsContainerContext
 
    private Set<Object> registeredKeys = new HashSet<Object>();
 
-   public DummyTenantsContainerContext(ExoContainer parent, InitParams config)
+   public DummyTenantContainerContext(ExoContainerContext ctx, InitParams config)
    {
    }
 
-   @Override
    public List getComponentAdaptersOfType(Class componentType)
    {
       lastGetListKey = componentType;
       return null;
    }
 
-   @Override
    public List getComponentInstancesOfType(Class componentType)
    {
       lastGetListKey = componentType;
       return null;
    }
 
-   @Override
    public ComponentAdapter getComponentAdapterOfType(Class key)
    {
       lastGetKey = key;
       return null;
    }
 
-   @Override
    public Object getComponentInstance(Object componentKey)
    {
       lastGetKey = componentKey;
@@ -66,20 +60,17 @@ public class DummyTenantsContainerContext implements TenantsContainerContext
       return null;
    }
 
-   @Override
    public Object getComponentInstanceOfType(Class<?> componentType)
    {
       lastGetKey = componentType;
       return null;
    }
 
-   @Override
    public boolean accept(ComponentAdapter adapter)
    {
       return !(adapter instanceof InstanceComponentAdapter);
    }
 
-   @Override
    public boolean accept(Object key)
    {
       boolean res = registeredKeys.contains(key);
@@ -113,10 +104,9 @@ public class DummyTenantsContainerContext implements TenantsContainerContext
       return subclasses;
    }
 
-   @Override
    public ComponentAdapter registerComponent(ComponentAdapter component) throws TenantComponentRegistrationException
    {
-      if (!TenantsContainerContext.class.equals(component.getComponentKey()))
+      if (!TenantContainerContext.class.equals(component.getComponentKey()))
       {
          lastRegisteredKey = component.getComponentKey();
          registeredKeys.add(component.getComponentKey());
@@ -125,10 +115,9 @@ public class DummyTenantsContainerContext implements TenantsContainerContext
       return new MX4JComponentAdapter(component.getComponentKey(), component.getComponentImplementation()); // dummy stuff to return not null
    }
 
-   @Override
    public ComponentAdapter unregisterComponent(Object componentKey) throws TenantComponentRegistrationException
    {
-      if (!TenantsContainerContext.class.equals(componentKey))
+      if (!TenantContainerContext.class.equals(componentKey))
       {
          lastUnregisteredKey = componentKey;
          registeredKeys.remove(componentKey);

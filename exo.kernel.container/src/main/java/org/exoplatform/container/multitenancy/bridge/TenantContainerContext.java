@@ -18,23 +18,23 @@
  */
 package org.exoplatform.container.multitenancy.bridge;
 
-import org.exoplatform.container.TenantsContainer;
+import org.exoplatform.container.TenantContainer;
 import org.picocontainer.ComponentAdapter;
 
 import java.util.List;
 
 /**
- * Context for {@link TenantsContainer}. Prescribes general contract between container and
+ * Context for {@link TenantContainer}. Prescribes general contract between container and
  * multitenancy capable components registration/unregistration. Container should use
  * {@link #accept(ComponentAdapter)} method during the registration to answer should a some
- * component be registered in {@link TenantsContainer} or not. The same way method 
+ * component be registered in {@link TenantContainer} or not. The same way method 
  * {@link #accept(Object)} should be used to choose from where to get a component in getters.<br>
  * Context implementation should apply own "container" for per-tenant managed components and use it
- * for {@link TenantsContainer} methods implementation.
+ * for {@link TenantContainer} methods implementation.
  * 
  * @author <a href="mailto:pnedonosko@exoplatform.com">Peter Nedonosko</a>
  */
-public interface TenantsContainerContext
+public interface TenantContainerContext
 {
    /**
     * Return list of component adapters regarding the given Class key and Current Tenant.

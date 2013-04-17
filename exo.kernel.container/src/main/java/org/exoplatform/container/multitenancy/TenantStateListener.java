@@ -20,14 +20,14 @@ package org.exoplatform.container.multitenancy;
 
 /**
  * Listener for Tenant state events in multitenant environment.<br>
- * This listener can be explicitly added to (and later removed from) {@link TenantsService} or its
+ * This listener can be explicitly added to (and later removed from) {@link TenantService} or its
  * implementation can be registered in eXo container. In last case to remove the listener unregister
  * it from the container.
  * 
  * @author <a href="mailto:pnedonosko@exoplatform.com">Peter Nedonosko</a>
  * 
  */
-public interface TenantsStateListener
+public interface TenantStateListener
 {
 
    /**
@@ -35,13 +35,13 @@ public interface TenantsStateListener
     * 
     * @param tenant {@link Tenant}
     */
-   void tenantStopped(Tenant tenant);
+   void onStopped(Tenant tenant);
 
    /**
     * Action on tenant start (creation or resuming).
     * 
     * @param tenant {@link Tenant}
     */
-   void tenantStarted(Tenant tenant);
+   void onStarted(Tenant tenant);
 
 }

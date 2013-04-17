@@ -24,7 +24,7 @@ package org.exoplatform.container.multitenancy;
  * 
  * @author <a href="mailto:pnedonosko@exoplatform.com">Peter Nedonosko</a>
  */
-public interface TenantsService
+public interface TenantService
 {
 
    /**
@@ -39,7 +39,7 @@ public interface TenantsService
     * @return {@link Tenant} Current Tenant descriptor.
     * @throws CurrentTenantNotSetException if Current Tenant not found or not set.
     */
-   Tenant getCurrentTanant() throws CurrentTenantNotSetException;
+   Tenant getCurrentTenant() throws CurrentTenantNotSetException;
 
    /**
     * Answers if Current Tenant is set in current thread. See {@link #getCurrentTenant()} for details.  
@@ -47,23 +47,23 @@ public interface TenantsService
     * @see #getCurrentTenant()
     * @return boolean, {@code true} if current tenant is set in current thread, {@code false} otherwise.
     */
-   boolean hasCurrentTanant();
+   boolean hasCurrentTenant();
 
    /**
     * Add listener for Tenant events in Multitenancy sub-system.
-    * Added listener later can be removed by {@link #removeListener(TenantsStateListener)} method.
+    * Added listener later can be removed by {@link #removeListener(TenantStateListener)} method.
     * 
-    * @param listener {@link TenantsStateListener}
+    * @param listener {@link TenantStateListener}
     */
-   void addListener(TenantsStateListener listener);
+   void addListener(TenantStateListener listener);
 
    /**
     * Remove Tenant events listener from Multitenancy sub-system. <br>
     * Take in account that it's possible to remove only explicitly added listeners. Listeners
     * available as components in eXo Container don't affected by this method.
     * 
-    * @param listener {@link TenantsStateListener}
+    * @param listener {@link TenantStateListener}
     */
-   void removeListener(TenantsStateListener listener);
+   void removeListener(TenantStateListener listener);
 
 }

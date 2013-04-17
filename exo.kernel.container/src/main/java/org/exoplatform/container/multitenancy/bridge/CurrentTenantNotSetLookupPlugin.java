@@ -34,7 +34,6 @@ final class CurrentTenantNotSetLookupPlugin extends BaseComponentPlugin implemen
    /**
     * {@inheritDoc}
     */
-   @Override
    public Tenant getCurrentTenant() throws CurrentTenantNotSetException
    {
       // XXX we could return something predefined here (like 'default'), but it is not required
@@ -42,7 +41,6 @@ final class CurrentTenantNotSetLookupPlugin extends BaseComponentPlugin implemen
       throw new CurrentTenantNotSetException("Current Tenant not set.");
    }
 
-   @Override
    public boolean hasCurrentTenant()
    {
       return false;

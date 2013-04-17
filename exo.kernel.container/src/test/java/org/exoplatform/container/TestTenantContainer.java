@@ -3,45 +3,45 @@ package org.exoplatform.container;
 import org.exoplatform.container.jmx.AbstractTestContainer;
 import org.exoplatform.container.jmx.MX4JComponentAdapter;
 import org.exoplatform.container.management.ManageableComponentAdapter;
-import org.exoplatform.container.multitenancy.bridge.DummyTenantsContainerContext;
+import org.exoplatform.container.multitenancy.bridge.DummyTenantContainerContext;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.Startable;
 
 import java.util.List;
 
 /**
- * Test of {@link TenantsContainer}.
+ * Test of {@link TenantContainer}.
  * 
  * @author <a href="mailto:pnedonosko@exoplatform.org">Peter Nedonosko</a>
- * @version $Id: TestTenantsContainer.java 000000 Mar 6, 2013 4:28:36 PM pnedonosko $
+ * @version $Id: TestTenantContainer.java 000000 Mar 6, 2013 4:28:36 PM pnedonosko $
  *
  */
-public class TestTenantsContainer extends AbstractTestContainer
+public class TestTenantContainer extends AbstractTestContainer
 {
 
    protected Object getLastRegisteredKey(ExoContainer container)
    {
-      return ((DummyTenantsContainerContext)container.tenantsContainerContext).lastRegisteredKey;
+      return ((DummyTenantContainerContext)container.tenantsContainerContext).lastRegisteredKey;
    }
 
    protected Object getLastUnregisteredKey(ExoContainer container)
    {
-      return ((DummyTenantsContainerContext)container.tenantsContainerContext).lastUnregisteredKey;
+      return ((DummyTenantContainerContext)container.tenantsContainerContext).lastUnregisteredKey;
    }
 
    protected Object getLastGetKey(ExoContainer container)
    {
-      return ((DummyTenantsContainerContext)container.tenantsContainerContext).lastGetKey;
+      return ((DummyTenantContainerContext)container.tenantsContainerContext).lastGetKey;
    }
 
    protected Object getLastGetListKey(ExoContainer container)
    {
-      return ((DummyTenantsContainerContext)container.tenantsContainerContext).lastGetListKey;
+      return ((DummyTenantContainerContext)container.tenantsContainerContext).lastGetListKey;
    }
 
    protected List<Class<?>> getRegisteredTypes(ExoContainer container, Class<?> type)
    {
-      return ((DummyTenantsContainerContext)container.tenantsContainerContext).getRegisteredTypes(type);
+      return ((DummyTenantContainerContext)container.tenantsContainerContext).getRegisteredTypes(type);
    }
 
    /**
@@ -86,7 +86,7 @@ public class TestTenantsContainer extends AbstractTestContainer
       final RootContainer root = createRootContainer("test-tenants-container.xml");
       ComponentAdapter adapter = root.registerComponentInstance(new C2());
       assertNotNull(adapter);
-      assertNull(getLastRegisteredKey(root)); //Must not be registered in TenantsContainer
+      assertNull(getLastRegisteredKey(root)); //Must not be registered in TenantContainer
       assertNotNull(root.getComponentInstanceOfType(C2.class));
    }
 

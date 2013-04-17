@@ -16,11 +16,11 @@
  */
 package org.exoplatform.container.multitenancy.bridge;
 
-import org.exoplatform.container.multitenancy.TenantsService;
-import org.exoplatform.container.multitenancy.TenantsStateListener;
+import org.exoplatform.container.multitenancy.TenantService;
+import org.exoplatform.container.multitenancy.TenantStateListener;
 
 /**
- * Pluggable observer of Tenant events for {@link TenantsService} implementation.
+ * Pluggable observer of Tenant events for {@link TenantService} implementation.
  * 
  * Created by The eXo Platform SAS.
  * 
@@ -34,15 +34,15 @@ public interface TenantStateObserver
    /**
     * Add listener to Multitenancy core.
     * 
-    * @param listener {@link TenantsStateListener}
+    * @param listener {@link TenantStateListener}
     */
-   void addListener(TenantsStateListener listener);
+   void addListener(TenantStateListener listener);
 
    /**
     * Remove listener from Multitenancy core.
     * 
-    * @param listener {@link TenantsStateListener}
+    * @param listener {@link TenantStateListener}
     */
-   void removeListener(TenantsStateListener listener);
+   void removeListener(TenantStateListener listener);
 
 }

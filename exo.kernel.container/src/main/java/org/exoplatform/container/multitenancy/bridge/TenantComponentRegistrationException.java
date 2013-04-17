@@ -18,11 +18,11 @@
  */
 package org.exoplatform.container.multitenancy.bridge;
 
-import org.exoplatform.container.TenantsContainer;
+import org.exoplatform.container.TenantContainer;
 import org.picocontainer.PicoRegistrationException;
 
 /**
- * Indicates that some component cannot be registered in a {@link TenantsContainer}. 
+ * Indicates that some component cannot be registered in a {@link TenantContainer}. 
  *
  * @author <a href="mailto:pnedonosko@exoplatform.com">Peter Nedonosko</a>
  */

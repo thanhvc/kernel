@@ -20,7 +20,7 @@ package org.exoplatform.services.scheduler.impl;
 
 import org.exoplatform.container.component.ComponentPlugin;
 import org.exoplatform.container.multitenancy.CurrentTenantNotSetException;
-import org.exoplatform.container.multitenancy.TenantsService;
+import org.exoplatform.container.multitenancy.TenantService;
 import org.exoplatform.container.xml.PortalContainerInfo;
 import org.exoplatform.management.annotations.Managed;
 import org.exoplatform.management.annotations.ManagedDescription;
@@ -84,10 +84,10 @@ public class JobSchedulerServiceImpl implements JobSchedulerService, Startable
 
    private final QueueTasks qtasks_;
 
-   private final TenantsService tenantsService;
+   private final TenantService tenantsService;
 
    public JobSchedulerServiceImpl(PortalContainerInfo pinfo, QuartzSheduler quartzSchduler, QueueTasks qtasks,
-      TenantsService tService)
+      TenantService tService)
    {
       scheduler_ = quartzSchduler.getQuartzSheduler();
       containerName_ = pinfo.getContainerName();
@@ -606,7 +606,7 @@ public class JobSchedulerServiceImpl implements JobSchedulerService, Startable
       {
          try
          {
-            String tenantName = tenantsService.getCurrentTanant().getName();
+            String tenantName = tenantsService.getCurrentTenant().getName();
             gname.append(":");
             gname.append(tenantName);
          }
