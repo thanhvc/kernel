@@ -41,7 +41,7 @@ public class MimeTypeResolver
    /**
     *  Name of mime cache file property parameter.
     */
-   private static final String MIME_CACHE = "exo.mime-cache";
+   private static final String MIME_CACHE = "exo.mime.cache";
 
 
    static {
@@ -50,12 +50,9 @@ public class MimeTypeResolver
          public Void run()
          {
             String mimeCacheFile = PropertyManager.getProperty(MIME_CACHE);
-            if (mimeCacheFile != null)
+            if (mimeCacheFile != null && !mimeCacheFile.isEmpty())
             {
-               if (!mimeCacheFile.isEmpty())
-               {
-                  new eu.medsea.mimeutil.detector.OpendesktopMimeDetector(mimeCacheFile);
-               }
+               new eu.medsea.mimeutil.detector.OpendesktopMimeDetector(mimeCacheFile);
                MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
             }
             else
