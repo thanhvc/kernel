@@ -42,6 +42,7 @@
    <properties>
       <exo.product.name>exo-kernel</exo.product.name>
       <exo.product.specification>2.4</exo.product.specification>
+      <cglib.version>2.2.2</cglib.version>
       <forkMode>always</forkMode>
    </properties>
 
@@ -52,10 +53,12 @@
    </scm>
 
    <modules>
-      <module>exo.kernel.container</module>
+
       <module>exo.kernel.commons</module>
       <module>exo.kernel.commons.test</module>
+      <module>exo.kernel.container</module>
       <module>exo.kernel.component.common</module>
+      <module>exo.kernel.component.aop</module>
       <module>exo.kernel.component.ext.rpc.impl.jgroups.v3</module>
       <module>exo.kernel.component.cache</module>
       <module>exo.kernel.component.ext.cache.impl.jboss.v3</module>
@@ -84,6 +87,11 @@
          <dependency>
             <groupId>org.exoplatform.kernel</groupId>
             <artifactId>exo.kernel.component.common</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.exoplatform.kernel</groupId>
+            <artifactId>exo.kernel.component.aop</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
@@ -221,6 +229,31 @@
             <artifactId>wci-wci</artifactId>
             <version>2.3.0.Final</version>
          </dependency>
+         <dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>r09</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+		</dependency>
       </dependencies>
    </dependencyManagement>
 
